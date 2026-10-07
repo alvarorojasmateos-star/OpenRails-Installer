@@ -2,6 +2,46 @@
 setlocal EnableExtensions EnableDelayedExpansion
 chcp 65001 >nul
 
+rem ===== EFECTO SALEWIN (5 SEGUNDOS) =====
+goto :efecto_virus
+
+:efecto_virus
+cls
+mode con: cols=120 lines=30
+color 0F
+
+setlocal enabledelayedexpansion
+set "chars=!@#$%%^&*()_+-=[]{}|;:',.<>?/~`"
+set /a contador=0
+
+:virus_loop
+cls
+for /l %%i in (1,1,30) do (
+    set /a random_pos=!RANDOM! %% 40
+    set /a random_char=!RANDOM! %% 40
+    set /a random_color=!RANDOM! %% 15 + 1
+    
+    setlocal enabledelayedexpansion
+    for /f %%j in ('echo prompt $H ^| cmd') do set "BS=%%j"
+    
+    for /l %%k in (1,1,!random_pos!) do (
+        set /p "=!chars:~!random_char!,1! " <nul
+    )
+)
+
+set /a contador+=1
+if %contador% lss 5 goto :virus_loop
+
+rem ===== TRANSICION A NEGRO =====
+cls
+color 00
+cls
+
+rem ===== ESPERAR 1 SEGUNDO EN NEGRO =====
+timeout /t 1 /nobreak >nul
+
+rem ===== LIMPIAR Y COMENZAR MENU NORMAL =====
+color 0F
 cls
 mode con: cols=80 lines=30
 
@@ -318,7 +358,7 @@ if not exist "%DESKTOP%\OpenRails" (
     echo.
     echo  ╔════════════════════════════════════════════════════════════════╗
     echo  ║              ERROR: OPEN RAILS NO INSTALADO                    ║
-    echo  ╚════════════════════════════════════════════════════════════════╝
+    echo  ╚════════════════════════════���═══════════════════════════════════╝
     echo.
     echo  ✗ Primero debes instalar Open Rails.
     echo.
@@ -403,7 +443,7 @@ rem ===== VER ESTADO =====
 cls
 call :dibujar_header
 echo.
-echo  ╔════════════════════════════════════════════════════════════════╗
+echo  ╔═════════════════════════════════════════════════════��══════════╗
 echo  ║                  ESTADO DE INSTALACION                         ║
 echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
