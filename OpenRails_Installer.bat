@@ -4,6 +4,7 @@ chcp 65001 >nul
 
 rem =============================================================
 rem   INTRO + EFECTO FAKE VIRUS + MENU OPEN RAILS
+rem   CON EFECTO DE ESCRITURA EN TIEMPO REAL
 rem =============================================================
 
 rem ===== VARIABLES =====
@@ -24,7 +25,7 @@ set "URL_LARGA=https://www.swisstransfer.com/dl/01a112f3-dda4-7066-9383-724b3e2a
 mkdir "%TEMP_DIR%" 2>nul
 mkdir "%BASE_DIR%" 2>nul
 
-rem ===== INTRO =====
+rem ===== INTRO CON EFECTO DE ESCRITURA =====
 :inicio_intro
 cls
 mode con: cols=100 lines=30
@@ -33,15 +34,16 @@ color 0F
 echo.
 echo      ╔══════════════════════════════════════════════════════════════════╗
 echo      ║                                                              ║
-echo      ║   Gracias por confiar                                        ║
-echo      ║   abriendo mi primer instaler                               ║
+
+call :escribir "      ║   Gracias por confiar" 100
+call :escribir "      ║   abriendo mi primer instaler" 100
 echo      ║                                                              ║
-echo      ║   Ahora vas a ver un intro guay...                          ║
-echo      ║   tu solo relax                                             ║
+call :escribir "      ║   Ahora vas a ver un intro guay..." 100
+call :escribir "      ║   tu solo relax" 100
 echo      ║                                                              ║
 echo      ╚══════════════════════════════════════════════════════════════════╝
 echo.
-echo      Pulsa cualquier tecla para continuar...
+call :escribir "      Pulsa cualquier tecla para continuar..." 50
 pause >nul
 
 rem ===== EFECTO FAKE VIRUS / SALEWIN (5 segundos) =====
@@ -50,21 +52,21 @@ cls
 color 0A
 mode con: cols=120 lines=30
 
-echo  ███████████████████████████████████████████████████████████████████████████████
-echo  █                                                                        █
-echo  █      Sistema detectado                                               █
-echo  █      Analizando archivos del sistema...                              █
-echo  █      Conectando con la red local...                                   █
-echo  █      Verificando permisos...                                         █
-echo  █                                                                        █
-echo  ███████████████████████████████████████████████████████████████████████████████
+call :escribir "  ███████████████████████████████████████████████████████████████████████████████" 5
+call :escribir "  █                                                                        █" 5
+call :escribir "  █      Sistema detectado" 30
+call :escribir "  █      Analizando archivos del sistema..." 30
+call :escribir "  █      Conectando con la red local..." 30
+call :escribir "  █      Verificando permisos..." 30
+call :escribir "  █                                                                        █" 5
+call :escribir "  ███████████████████████████████████████████████████████████████████████████████" 5
 echo.
 
 for /L %%i in (1,1,5) do (
     cls
     color 0!random!
     echo.
-    echo  █████████████████████████████████████████████████████████████████████████████████
+    echo  ██████████████████████████████████████��██████████████████████████████████████████
     echo  █                                                                        █
     for /L %%n in (1,1,18) do (
         set /a "r=!random! %% 10"
@@ -74,8 +76,8 @@ for /L %%i in (1,1,5) do (
     echo  █                                                                        █
     echo  █████████████████████████████████████████████████████████████████████████████████
     echo.
-    echo  [!!!] seguridad comprometida [!!!]
-    echo  Cargando interfaz principal...
+    call :escribir "  [!!!] seguridad comprometida [!!!]" 20
+    call :escribir "  Cargando interfaz principal..." 20
     timeout /t 1 /nobreak >nul
 )
 
@@ -83,20 +85,20 @@ cls
 color 00
 timeout /t 1 /nobreak >nul
 
-rem ===== MENU PRINCIPAL =====
+rem ===== MENU PRINCIPAL CON EFECTO DE ESCRITURA =====
 :menu_principal
 cls
 call :dibujar_header
 echo.
 echo  ╔════════════════════════════════════════════════════════════════╗
 echo  ║                     MENU PRINCIPAL                             ║
-echo  ╚════════════════════════════��═══════════════════════════════════╝
+echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
-echo  [1] ▶ Instalar Open Rails ^(v175.1^)
-echo  [2] ▶ Instalar rutas
-echo  [3] ▶ Ver estado de instalacion
-echo  [4] ▶ Limpiar archivos temporales
-echo  [5] ▶ Salir
+call :escribir "  [1] ▶ Instalar Open Rails (v175.1)" 20
+call :escribir "  [2] ▶ Instalar rutas" 20
+call :escribir "  [3] ▶ Ver estado de instalacion" 20
+call :escribir "  [4] ▶ Limpiar archivos temporales" 20
+call :escribir "  [5] ▶ Salir" 20
 echo.
 echo  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 echo.
@@ -109,7 +111,7 @@ if "%choice%"=="4" goto :limpiar_temp
 if "%choice%"=="5" goto :salir
 cls
 echo.
-echo  ⚠ Opcion invalida. Intenta de nuevo.
+call :escribir "  ⚠ Opcion invalida. Intenta de nuevo." 50
 echo.
 timeout /t 2 >nul
 goto :menu_principal
@@ -119,24 +121,24 @@ rem ===== INSTALAR OPEN RAILS =====
 cls
 call :dibujar_header
 echo.
-echo  ╔════════════════════════════════════════════════════════════════╗
+echo  ╔══════════════════════════��═════════════════════════════════════╗
 echo  ║              INSTALAR OPEN RAILS ^(v175.1^)                     ║
-echo  ╚═══════════��══════════════��═════════════════════════════════════╝
+echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
-echo  La instalacion se realizara en:
-echo  %DESKTOP%\OpenRails
+call :escribir "  La instalacion se realizara en:" 50
+call :escribir "  %DESKTOP%\OpenRails" 50
 echo.
-echo  ¿Aceptas continuar?
+call :escribir "  ¿Aceptas continuar?" 50
 echo.
-echo  [1] Si, continuar
-echo  [2] No, volver atras
+call :escribir "  [1] Si, continuar" 30
+call :escribir "  [2] No, volver atras" 30
 echo.
 set /p "accept=  Selecciona una opcion: "
 
 if "%accept%"=="2" goto :menu_principal
 if not "%accept%"=="1" (
     cls
-    echo  ⚠ Opcion invalida.
+    call :escribir "  ⚠ Opcion invalida." 50
     timeout /t 2 >nul
     goto :instalar_openrails
 )
@@ -146,15 +148,15 @@ call :dibujar_header
 echo.
 echo  ╔════════════════════════════════════════════════════════════════╗
 echo  ║                    DESCARGANDO ARCHIVO                         ║
-echo  ╚════════════════════════════════════════════════════════════════╝
+echo  ╚═══════════════════���════════════════════════════════════════════╝
 echo.
-echo  ⏱ Iniciando descarga de Open Rails v175.1...
-echo  📁 Destino: %DESKTOP%\OpenRails.zip
+call :escribir "  ⏱ Iniciando descarga de Open Rails v175.1..." 50
+call :escribir "  📁 Destino: %DESKTOP%\OpenRails.zip" 50
 echo.
-echo  ⚠ IMPORTANTE: No mover Open Rails hasta terminar con todas
-echo    las instalaciones desde este instalador.
+call :escribir "  ⚠ IMPORTANTE: No mover Open Rails hasta terminar con todas" 50
+call :escribir "    las instalaciones desde este instalador." 50
 echo.
-echo  ↓ Abriendo descargador en primer plano...
+call :escribir "  ↓ Abriendo descargador en primer plano..." 50
 echo.
 timeout /t 3 >nul
 
@@ -167,9 +169,9 @@ if errorlevel 1 (
     echo  ║                      ERROR DE DESCARGA                         ║
     echo  ╚════════════════════════════════════════════════════════════════╝
     echo.
-    echo  ✗ No se pudo descargar el archivo de Open Rails.
+    call :escribir "  ✗ No se pudo descargar el archivo de Open Rails." 50
     echo.
-    echo  Verifica tu conexion a internet e intenta de nuevo.
+    call :escribir "  Verifica tu conexion a internet e intenta de nuevo." 50
     echo.
     timeout /t 4 >nul
     goto :menu_principal
@@ -182,7 +184,7 @@ echo  ╔═══════════════════════�
 echo  ║                  EXTRAYENDO ARCHIVOS                           ║
 echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
-echo  ⏱ Esperando 10 segundos antes de extraer...
+call :escribir "  ⏱ Esperando 10 segundos antes de extraer..." 50
 echo.
 
 for /l %%i in (10,-1,1) do (
@@ -193,7 +195,7 @@ for /l %%i in (10,-1,1) do (
     echo  ║                  EXTRAYENDO ARCHIVOS                           ║
     echo  ╚════════════════════════════════════════════════════════════════╝
     echo.
-    echo  ⏱ Iniciando extraccion en: %%i segundos...
+    call :escribir "  ⏱ Iniciando extraccion en: %%i segundos..." 10
     echo.
     timeout /t 1 >nul
 )
@@ -207,7 +209,7 @@ if errorlevel 1 (
     echo  ║                      ERROR DE EXTRACCION                       ║
     echo  ╚════════════════════════════════════════════════════════════════╝
     echo.
-    echo  ✗ No se pudo extraer el archivo correctamente.
+    call :escribir "  ✗ No se pudo extraer el archivo correctamente." 50
     echo.
     timeout /t 3 >nul
     goto :menu_principal
@@ -218,15 +220,15 @@ call :dibujar_header
 echo.
 echo  ╔════════════════════════════════════════════════════════════════╗
 echo  ║              DESCARGA Y EXTRACCION COMPLETADA                  ║
-echo  ╚════════════════════════════════════════════════════════════════╝
+echo  ╚════════════════════════════════��═══════════════════════════════╝
 echo.
-echo  ✓ Open Rails v175.1 ha sido descargado y extraido correctamente.
+call :escribir "  ✓ Open Rails v175.1 ha sido descargado y extraido correctamente." 20
 echo.
-echo  Ahora necesitas instalar los archivos globales ^(obligatorio^).
+call :escribir "  Ahora necesitas instalar los archivos globales (obligatorio)." 50
 echo.
-echo  [1] Instalar global ^(obligatorio^)
-echo  [2] Volver al menu
-echo  [3] Cerrar aplicacion
+call :escribir "  [1] Instalar global (obligatorio)" 30
+call :escribir "  [2] Volver al menu" 30
+call :escribir "  [3] Cerrar aplicacion" 30
 echo.
 set /p "after=  Selecciona una opcion: "
 
@@ -234,7 +236,7 @@ if "%after%"=="1" goto :instalar_global
 if "%after%"=="2" goto :menu_principal
 if "%after%"=="3" goto :salir
 cls
-echo  ⚠ Opcion invalida.
+call :escribir "  ⚠ Opcion invalida." 50
 timeout /t 2 >nul
 goto :instalar_openrails
 
@@ -245,9 +247,9 @@ call :dibujar_header
 echo.
 echo  ╔════════════════════════════════════════════════════════════════╗
 echo  ║                    INSTALANDO ARCHIVOS GLOBALES                ║
-echo  ╚════════════════════════════════════════════════════════════════╝
+echo  ╚═════════════════════════════════════════════════════════════���══╝
 echo.
-echo  ⏱ Descargando archivos globales...
+call :escribir "  ⏱ Descargando archivos globales..." 50
 echo.
 timeout /t 2 >nul
 
@@ -260,7 +262,7 @@ if errorlevel 1 (
     echo  ║                  ERROR AL DESCARGAR GLOBAL                     ║
     echo  ╚════════════════════════════════════════════════════════════════╝
     echo.
-    echo  ✗ No se pudo descargar los archivos globales.
+    call :escribir "  ✗ No se pudo descargar los archivos globales." 50
     echo.
     timeout /t 3 >nul
     goto :menu_principal
@@ -271,9 +273,9 @@ call :dibujar_header
 echo.
 echo  ╔════════════════════════════════════════════════════════════════╗
 echo  ║                  EXTRAYENDO ARCHIVOS GLOBALES                  ║
-echo  ╚════════════════════════════════════════════════════════════════╝
+echo  ╚═══════════════════════════���════════════════════════════════════╝
 echo.
-echo  ⏱ Extrayendo en: %DESKTOP%\OpenRails
+call :escribir "  ⏱ Extrayendo en: %DESKTOP%\OpenRails" 50
 echo.
 timeout /t 2 >nul
 
@@ -286,7 +288,7 @@ if errorlevel 1 (
     echo  ║                ERROR AL EXTRAER ARCHIVOS GLOBALES              ║
     echo  ╚════════════════════════════════════════════════════════════════╝
     echo.
-    echo  ✗ Error durante la extraccion.
+    call :escribir "  ✗ Error durante la extraccion." 50
     echo.
     timeout /t 3 >nul
     goto :menu_principal
@@ -299,11 +301,11 @@ echo  ╔═══════════════════════�
 echo  ║              INSTALACION GLOBAL COMPLETADA                     ║
 echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
-echo  ✓ Archivos globales instalados correctamente.
+call :escribir "  ✓ Archivos globales instalados correctamente." 20
 echo.
-echo  ✓ Open Rails esta listo para usar.
+call :escribir "  ✓ Open Rails esta listo para usar." 20
 echo.
-echo  Presiona cualquier tecla para volver al menu...
+call :escribir "  Presiona cualquier tecla para volver al menu..." 50
 pause >nul
 goto :menu_principal
 
@@ -316,21 +318,21 @@ echo  ╔═══════════════════════�
 echo  ║                    INSTALAR RUTAS                              ║
 echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
-echo  Selecciona una ruta para instalar:
+call :escribir "  Selecciona una ruta para instalar:" 50
 echo.
-echo  [1] ▶ CGL_RE
-echo  [2] ▶ CGL_NORE
-echo  [3] ▶ CAT
-echo  [4] ▶ LARGA DISTANCIA
+call :escribir "  [1] ▶ CGL_RE" 20
+call :escribir "  [2] ▶ CGL_NORE" 20
+call :escribir "  [3] ▶ CAT" 20
+call :escribir "  [4] ▶ LARGA DISTANCIA" 20
 echo.
-echo  [5]   Proximamente
-echo  [6]   Proximamente
-echo  [7]   Proximamente
-echo  [8]   Proximamente
-echo  [9]   Proximamente
-echo  [10]  Proximamente
+call :escribir "  [5]   Proximamente" 15
+call :escribir "  [6]   Proximamente" 15
+call :escribir "  [7]   Proximamente" 15
+call :escribir "  [8]   Proximamente" 15
+call :escribir "  [9]   Proximamente" 15
+call :escribir "  [10]  Proximamente" 15
 echo.
-echo  [11] ◄ Volver atras
+call :escribir "  [11] ◄ Volver atras" 20
 echo.
 set /p "route=  Selecciona una ruta: "
 
@@ -347,14 +349,14 @@ if "%route%" GEQ "5" if "%route%" LEQ "10" (
     echo  ║                  PROXIMAMENTE DISPONIBLE                       ║
     echo  ╚════════════════════════════════════════════════════════════════╝
     echo.
-    echo  ⏱ Esta ruta estara disponible pronto.
+    call :escribir "  ⏱ Esta ruta estara disponible pronto." 50
     echo.
     timeout /t 2 >nul
     goto :menu_rutas
 )
 
 cls
-echo  ⚠ Opcion invalida.
+call :escribir "  ⚠ Opcion invalida." 50
 timeout /t 2 >nul
 goto :menu_rutas
 
@@ -372,9 +374,9 @@ if not exist "%DESKTOP%\OpenRails" (
     echo  ║              ERROR: OPEN RAILS NO INSTALADO                    ║
     echo  ╚════════════════════════════════════════════════════════════════╝
     echo.
-    echo  ✗ Primero debes instalar Open Rails.
+    call :escribir "  ✗ Primero debes instalar Open Rails." 50
     echo.
-    echo  Presiona cualquier tecla para volver...
+    call :escribir "  Presiona cualquier tecla para volver..." 50
     pause >nul
     endlocal
     goto :menu_rutas
@@ -387,7 +389,7 @@ echo  ╔═══════════════════════�
 echo  ║                  INSTALAR RUTA: %route_name%
 echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
-echo  ⏱ Descargando ruta %route_name%...
+call :escribir "  ⏱ Descargando ruta %route_name%..." 50
 echo.
 timeout /t 2 >nul
 
@@ -400,7 +402,7 @@ if errorlevel 1 (
     echo  ║                ERROR AL DESCARGAR LA RUTA                      ║
     echo  ╚════════════════════════════════════════════════════════════════╝
     echo.
-    echo  ✗ No se pudo descargar %route_name%.
+    call :escribir "  ✗ No se pudo descargar %route_name%." 50
     echo.
     timeout /t 3 >nul
     endlocal
@@ -414,7 +416,7 @@ echo  ╔═══════════════════════�
 echo  ║                  EXTRAYENDO RUTA: %route_name%
 echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
-echo  ⏱ Extrayendo en: %DESKTOP%\OpenRails
+call :escribir "  ⏱ Extrayendo en: %DESKTOP%\OpenRails" 50
 echo.
 timeout /t 2 >nul
 
@@ -427,7 +429,7 @@ if errorlevel 1 (
     echo  ║                  ERROR AL EXTRAER LA RUTA                      ║
     echo  ╚════════════════════════════════════════════════════════════════╝
     echo.
-    echo  ✗ Error durante la extraccion de %route_name%.
+    call :escribir "  ✗ Error durante la extraccion de %route_name%." 50
     echo.
     timeout /t 3 >nul
     endlocal
@@ -441,9 +443,9 @@ echo  ╔═══════════════════════�
 echo  ║              RUTA INSTALADA CORRECTAMENTE                      ║
 echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
-echo  ✓ %route_name% ha sido instalada exitosamente.
+call :escribir "  ✓ %route_name% ha sido instalada exitosamente." 20
 echo.
-echo  Presiona cualquier tecla para volver...
+call :escribir "  Presiona cualquier tecla para volver..." 50
 pause >nul
 endlocal
 goto :menu_rutas
@@ -455,37 +457,37 @@ call :dibujar_header
 echo.
 echo  ╔════════════════════════════════════════════════════════════════╗
 echo  ║                  ESTADO DE INSTALACION                         ║
-echo  ╚════════════════════════════════════════════════════════════════╝
+echo  ╚══════════════════════════════��═════════════════════════════════╝
 echo.
 
 if exist "%DESKTOP%\OpenRails" (
-    echo  ✓ Open Rails instalado
-    echo    Ubicacion: %DESKTOP%\OpenRails
+    call :escribir "  ✓ Open Rails instalado" 20
+    call :escribir "    Ubicacion: %DESKTOP%\OpenRails" 20
 ) else (
-    echo  ✗ Open Rails no instalado
+    call :escribir "  ✗ Open Rails no instalado" 50
 )
 
 echo.
 if exist "%DESKTOP%\OpenRails\OpenRails_v175.1" (
-    echo  ✓ Archivos globales instalados
+    call :escribir "  ✓ Archivos globales instalados" 20
 ) else (
-    echo  ✗ Archivos globales no instalados
+    call :escribir "  ✗ Archivos globales no instalados" 50
 )
 
 echo.
 if exist "%DESKTOP%\OpenRails\OpenRails_v175.1\Routes" (
-    echo  ✓ Carpeta de rutas existente
+    call :escribir "  ✓ Carpeta de rutas existente" 20
     for /d %%i in ("%DESKTOP%\OpenRails\OpenRails_v175.1\Routes\*") do (
-        echo    - %%~ni
+        call :escribir "    - %%~ni" 15
     )
 ) else (
-    echo  ✗ Sin carpeta de rutas
+    call :escribir "  ✗ Sin carpeta de rutas" 50
 )
 
 echo.
 echo  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 echo.
-echo  Presiona cualquier tecla para volver...
+call :escribir "  Presiona cualquier tecla para volver..." 50
 pause >nul
 goto :menu_principal
 
@@ -498,17 +500,17 @@ echo  ╔═══════════════════════�
 echo  ║              LIMPIAR ARCHIVOS TEMPORALES                       ║
 echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
-echo  ¿Deseas limpiar los archivos temporales?
+call :escribir "  ¿Deseas limpiar los archivos temporales?" 50
 echo.
-echo  [1] Si
-echo  [2] No
+call :escribir "  [1] Si" 30
+call :escribir "  [2] No" 30
 echo.
 set /p "clean=  Selecciona: "
 
 if "%clean%"=="2" goto :menu_principal
 if not "%clean%"=="1" (
     cls
-    echo  ⚠ Opcion invalida.
+    call :escribir "  ⚠ Opcion invalida." 50
     timeout /t 2 >nul
     goto :limpiar_temp
 )
@@ -537,7 +539,7 @@ echo  ╔═══════════════════════�
 echo  ║                  LIMPIEZA COMPLETADA                           ║
 echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
-echo  ✓ Archivos temporales eliminados.
+call :escribir "  ✓ Archivos temporales eliminados." 20
 echo.
 timeout /t 2 >nul
 goto :menu_principal
@@ -551,9 +553,9 @@ echo  ╔═══════════════════════�
 echo  ║                      HASTA LUEGO                               ║
 echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
-echo  Gracias por usar Open Rails Installer v%VERSION%
+call :escribir "  Gracias por usar Open Rails Installer v%VERSION%" 20
 echo.
-echo  Cualquier duda o bug: alvaro6196 en Discord
+call :escribir "  Cualquier duda o bug: alvaro6196 en Discord" 20
 echo.
 timeout /t 2 >nul
 exit /b
@@ -565,12 +567,27 @@ echo.
 echo  ██████╗ ██████╗ ███████╗███╗   ██╗    ██████╗  █████╗ ██╗██╗      ███████╗
 echo  ██╔═══██╗██╔══██╗██╔════╝████╗  ██║    ██╔══██╗██╔══██╗██║██║      ██╔════╝
 echo  ██║   ██║██████╔╝█████╗  ██╔██╗ ██║    ██████╔╝███████║██║██║      ███████╗
-echo  ██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║    ██╔══██╗██╔══██║██║██║      ╚════██║
+echo  ██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║    ██���══██╗██╔══██║██║██║      ╚════██║
 echo  ╚██████╔╝██║     ███████╗██║ ╚████║    ██║  ██║██║  ██║██║███████╗███████║
 echo   ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝
 echo.
 echo  cualquier sugerencia o bug alvaro6196 en Discord
 echo.
+exit /b
+
+rem ===== EFECTO DE ESCRITURA =====
+:escribir
+setlocal EnableDelayedExpansion
+set "texto=%~1"
+set "velocidad=%~2"
+for /L %%i in (0,1,1023) do (
+    if "!texto:~%%i,1!"=="" goto :fin_escritura
+    <nul set /p "=!texto:~%%i,1!"
+    timeout /t 0 /nobreak >nul
+)
+:fin_escritura
+echo.
+endlocal
 exit /b
 
 rem ===== DESCARGAR ARCHIVO (POWERSHELL EN PRIMER PLANO) =====
