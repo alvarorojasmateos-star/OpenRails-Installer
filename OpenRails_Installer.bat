@@ -2,59 +2,18 @@
 setlocal EnableExtensions EnableDelayedExpansion
 chcp 65001 >nul
 
-rem ===== EFECTO SALEWIN (5 SEGUNDOS) =====
-goto :efecto_virus
+rem =============================================================
+rem   INTRO + EFECTO FAKE VIRUS + MENU OPEN RAILS
+rem =============================================================
 
-:efecto_virus
-cls
-mode con: cols=120 lines=30
-color 0F
-
-setlocal enabledelayedexpansion
-set "chars=!@#$%%^&*()_+-=[]{}|;:',.<>?/~`"
-set /a contador=0
-
-:virus_loop
-cls
-for /l %%i in (1,1,30) do (
-    set /a random_pos=!RANDOM! %% 40
-    set /a random_char=!RANDOM! %% 40
-    set /a random_color=!RANDOM! %% 15 + 1
-    
-    setlocal enabledelayedexpansion
-    for /f %%j in ('echo prompt $H ^| cmd') do set "BS=%%j"
-    
-    for /l %%k in (1,1,!random_pos!) do (
-        set /p "=!chars:~!random_char!,1! " <nul
-    )
-)
-
-set /a contador+=1
-if %contador% lss 5 goto :virus_loop
-
-rem ===== TRANSICION A NEGRO =====
-cls
-color 00
-cls
-
-rem ===== ESPERAR 1 SEGUNDO EN NEGRO =====
-timeout /t 1 /nobreak >nul
-
-rem ===== LIMPIAR Y COMENZAR MENU NORMAL =====
-color 0F
-cls
-mode con: cols=80 lines=30
-
-rem ===== VARIABLES GLOBALES =====
+rem ===== VARIABLES =====
 set "DESKTOP=%USERPROFILE%\Desktop"
 set "BASE_DIR=%DESKTOP%\OpenRails"
 set "APP_DIR=%BASE_DIR%\OpenRails_v175.1"
-set "ROUTES_DIR=%APP_DIR%\Routes"
 set "TEMP_DIR=%TEMP%\OpenRails_Temp"
 set "LOG_FILE=%BASE_DIR%\OpenRails_install.log"
 set "VERSION=1.0"
 
-rem ===== URLS DE DESCARGAS =====
 set "URL_MAIN=https://www.swisstransfer.com/dl/01a112e0-183c-72df-b0ec-b3dfd44e7174"
 set "URL_GLOBAL=https://www.swisstransfer.com/dl/01a112e7-4954-724f-adde-7a2e2a0a96fe"
 set "URL_CGL_RE=https://www.swisstransfer.com/dl/01a112f1-b12d-7323-a1c8-fd2fa651de27"
@@ -65,7 +24,64 @@ set "URL_LARGA=https://www.swisstransfer.com/dl/01a112f3-dda4-7066-9383-724b3e2a
 mkdir "%TEMP_DIR%" 2>nul
 mkdir "%BASE_DIR%" 2>nul
 
-goto :menu_principal
+rem ===== INTRO =====
+:inicio_intro
+cls
+mode con: cols=100 lines=30
+color 0F
+
+echo.
+echo      ╔══════════════════════════════════════════════════════════════════╗
+echo      ║                                                              ║
+echo      ║   Gracias por confiar                                        ║
+echo      ║   abriendo mi primer instaler                               ║
+echo      ║                                                              ║
+echo      ║   Ahora vas a ver un intro guay...                          ║
+echo      ║   tu solo relax                                             ║
+echo      ║                                                              ║
+echo      ╚══════════════════════════════════════════════════════════════════╝
+echo.
+echo      Pulsa cualquier tecla para continuar...
+pause >nul
+
+rem ===== EFECTO FAKE VIRUS / SALEWIN (5 segundos) =====
+:efecto_virus
+cls
+color 0A
+mode con: cols=120 lines=30
+
+echo  ███████████████████████████████████████████████████████████████████████████████
+echo  █                                                                        █
+echo  █      Sistema detectado                                               █
+echo  █      Analizando archivos del sistema...                              █
+echo  █      Conectando con la red local...                                   █
+echo  █      Verificando permisos...                                         █
+echo  █                                                                        █
+echo  ███████████████████████████████████████████████████████████████████████████████
+echo.
+
+for /L %%i in (1,1,5) do (
+    cls
+    color 0!random!
+    echo.
+    echo  █████████████████████████████████████████████████████████████████████████████████
+    echo  █                                                                        █
+    for /L %%n in (1,1,18) do (
+        set /a "r=!random! %% 10"
+        for /L %%k in (1,1,!r!) do set /p "=░" <nul
+        echo.
+    )
+    echo  █                                                                        █
+    echo  █████████████████████████████████████████████████████████████████████████████████
+    echo.
+    echo  [!!!] seguridad comprometida [!!!]
+    echo  Cargando interfaz principal...
+    timeout /t 1 /nobreak >nul
+)
+
+cls
+color 00
+timeout /t 1 /nobreak >nul
 
 rem ===== MENU PRINCIPAL =====
 :menu_principal
@@ -74,7 +90,7 @@ call :dibujar_header
 echo.
 echo  ╔════════════════════════════════════════════════════════════════╗
 echo  ║                     MENU PRINCIPAL                             ║
-echo  ╚════════════════════════════════════════════════════════════════╝
+echo  ╚════════════════════════════��═══════════════════════════════════╝
 echo.
 echo  [1] ▶ Instalar Open Rails ^(v175.1^)
 echo  [2] ▶ Instalar rutas
@@ -105,7 +121,7 @@ call :dibujar_header
 echo.
 echo  ╔════════════════════════════════════════════════════════════════╗
 echo  ║              INSTALAR OPEN RAILS ^(v175.1^)                     ║
-echo  ╚════════════════════════════════════════════════════════════════╝
+echo  ╚═══════════��══════════════��═════════════════════════════════════╝
 echo.
 echo  La instalacion se realizara en:
 echo  %DESKTOP%\OpenRails
@@ -143,7 +159,6 @@ echo.
 timeout /t 3 >nul
 
 call :descargar_archivo "%URL_MAIN%" "%DESKTOP%\OpenRails.zip"
-
 if errorlevel 1 (
     cls
     call :dibujar_header
@@ -184,7 +199,6 @@ for /l %%i in (10,-1,1) do (
 )
 
 call :extraer_archivo "%DESKTOP%\OpenRails.zip" "%DESKTOP%"
-
 if errorlevel 1 (
     cls
     call :dibujar_header
@@ -238,7 +252,6 @@ echo.
 timeout /t 2 >nul
 
 call :descargar_archivo "%URL_GLOBAL%" "%TEMP_DIR%\global_install.zip"
-
 if errorlevel 1 (
     cls
     call :dibujar_header
@@ -265,7 +278,6 @@ echo.
 timeout /t 2 >nul
 
 call :extraer_archivo "%TEMP_DIR%\global_install.zip" "%DESKTOP%\OpenRails"
-
 if errorlevel 1 (
     cls
     call :dibujar_header
@@ -327,7 +339,7 @@ if "%route%"=="2" call :instalar_ruta "CGL_NORE" "%URL_CGL_NORE%"
 if "%route%"=="3" call :instalar_ruta "CAT" "%URL_CAT%"
 if "%route%"=="4" call :instalar_ruta "LARGA DISTANCIA" "%URL_LARGA%"
 if "%route%"=="11" goto :menu_principal
-if %route% geq 5 if %route% leq 10 (
+if "%route%" GEQ "5" if "%route%" LEQ "10" (
     cls
     call :dibujar_header
     echo.
@@ -346,7 +358,7 @@ echo  ⚠ Opcion invalida.
 timeout /t 2 >nul
 goto :menu_rutas
 
-rem ===== INSTALAR RUTA (SUBRUTINA) =====
+rem ===== INSTALAR RUTA =====
 :instalar_ruta
 setlocal
 set "route_name=%~1"
@@ -358,7 +370,7 @@ if not exist "%DESKTOP%\OpenRails" (
     echo.
     echo  ╔════════════════════════════════════════════════════════════════╗
     echo  ║              ERROR: OPEN RAILS NO INSTALADO                    ║
-    echo  ╚════════════════════════════���═══════════════════════════════════╝
+    echo  ╚════════════════════════════════════════════════════════════════╝
     echo.
     echo  ✗ Primero debes instalar Open Rails.
     echo.
@@ -380,7 +392,6 @@ echo.
 timeout /t 2 >nul
 
 call :descargar_archivo "%route_url%" "%TEMP_DIR%\%route_name%.zip"
-
 if errorlevel 1 (
     cls
     call :dibujar_header
@@ -408,7 +419,6 @@ echo.
 timeout /t 2 >nul
 
 call :extraer_archivo "%TEMP_DIR%\%route_name%.zip" "%DESKTOP%\OpenRails"
-
 if errorlevel 1 (
     cls
     call :dibujar_header
@@ -443,7 +453,7 @@ rem ===== VER ESTADO =====
 cls
 call :dibujar_header
 echo.
-echo  ╔═════════════════════════════════════════════════════��══════════╗
+echo  ╔════════════════════════════════════════════════════════════════╗
 echo  ║                  ESTADO DE INSTALACION                         ║
 echo  ╚════════════════════════════════════════════════════════════════╝
 echo.
@@ -512,14 +522,8 @@ echo  ╚═══════════════════════�
 echo.
 timeout /t 1 >nul
 
-if exist "%TEMP_DIR%" (
-    rmdir /s /q "%TEMP_DIR%" 2>nul
-)
-
-if exist "%DESKTOP%\OpenRails.zip" (
-    del /q "%DESKTOP%\OpenRails.zip" 2>nul
-)
-
+if exist "%TEMP_DIR%" rmdir /s /q "%TEMP_DIR%" 2>nul
+if exist "%DESKTOP%\OpenRails.zip" del /q "%DESKTOP%\OpenRails.zip" 2>nul
 if exist "%DESKTOP%\*.zip" (
     del /q "%DESKTOP%\CGL_*.zip" 2>nul
     del /q "%DESKTOP%\CAT.zip" 2>nul
@@ -569,7 +573,7 @@ echo  cualquier sugerencia o bug alvaro6196 en Discord
 echo.
 exit /b
 
-rem ===== DESCARGAR ARCHIVO (CON POWERSHELL EN PRIMER PLANO) =====
+rem ===== DESCARGAR ARCHIVO (POWERSHELL EN PRIMER PLANO) =====
 :descargar_archivo
 setlocal
 set "url=%~1"
@@ -578,46 +582,32 @@ set "ps_script=%TEMP%\OpenRails_Download.ps1"
 
 (
     echo Add-Type -AssemblyName System.Windows.Forms
-    echo $global:downloadComplete = $false
-    echo $global:downloadError = $false
-    echo.
     echo try {
     echo     $url = '%url%'
     echo     $output = '%output%'
-    echo     $WebClient = New-Object System.Net.WebClient
-    echo.
-    echo     Write-Host '↓ Descargando desde: ' -NoNewLine
-    echo     Write-Host $url -ForegroundColor Cyan
-    echo     Write-Host '↓ Guardando en: ' -NoNewLine
-    echo     Write-Host $output -ForegroundColor Yellow
-    echo     Write-Host ''
-    echo.
-    echo     $WebClient.DownloadFile($url, $output^)
-    echo     $global:downloadComplete = $true
-    echo     Write-Host '✓ Descarga completada exitosamente.' -ForegroundColor Green
+    echo     $wc = New-Object System.Net.WebClient
+    echo     Write-Host 'Descargando desde:' $url -ForegroundColor Cyan
+    echo     Write-Host 'Guardando en:' $output -ForegroundColor Yellow
+    echo     $wc.DownloadFile($url, $output)
+    echo     Write-Host 'Descarga completada.' -ForegroundColor Green
     echo } catch {
-    echo     $global:downloadError = $true
-    echo     Write-Host '✗ Error en la descarga: ' -ForegroundColor Red -NoNewLine
-    echo     Write-Host $_.Exception.Message -ForegroundColor Red
+    echo     Write-Host 'Error en la descarga:' $_.Exception.Message -ForegroundColor Red
+    echo     exit 1
     echo }
-    echo.
-    echo Read-Host 'Presiona Enter para continuar'
 ) > "%ps_script%"
 
 powershell -NoProfile -ExecutionPolicy Bypass -File "%ps_script%"
 set "result=%errorlevel%"
-
-if exist "%output%" (
-    del "%ps_script%"
+del "%ps_script%"
+if "%result%"=="0" (
     endlocal
     exit /b 0
 ) else (
-    del "%ps_script%"
     endlocal
     exit /b 1
 )
 
-rem ===== EXTRAER ARCHIVO (CON POWERSHELL EN PRIMER PLANO) =====
+rem ===== EXTRAER ARCHIVO (POWERSHELL EN PRIMER PLANO) =====
 :extraer_archivo
 setlocal
 set "zip=%~1"
@@ -625,34 +615,23 @@ set "dest=%~2"
 set "ps_script=%TEMP%\OpenRails_Extract.ps1"
 
 (
-    echo Add-Type -AssemblyName System.Windows.Forms
-    echo.
     echo try {
     echo     $zip = '%zip%'
     echo     $dest = '%dest%'
-    echo.
-    echo     Write-Host '↓ Extrayendo: ' -NoNewLine
-    echo     Write-Host $zip -ForegroundColor Cyan
-    echo     Write-Host '↓ Destino: ' -NoNewLine
-    echo     Write-Host $dest -ForegroundColor Yellow
-    echo     Write-Host ''
-    echo.
+    echo     Write-Host 'Extrayendo:' $zip -ForegroundColor Cyan
+    echo     Write-Host 'Destino:' $dest -ForegroundColor Yellow
     echo     Expand-Archive -Path $zip -DestinationPath $dest -Force -ErrorAction Stop
-    echo     Write-Host '✓ Extraccion completada exitosamente.' -ForegroundColor Green
+    echo     Write-Host 'Extraccion completada.' -ForegroundColor Green
     echo } catch {
-    echo     Write-Host '✗ Error en la extraccion: ' -ForegroundColor Red -NoNewLine
-    echo     Write-Host $_.Exception.Message -ForegroundColor Red
+    echo     Write-Host 'Error en la extraccion:' $_.Exception.Message -ForegroundColor Red
+    echo     exit 1
     echo }
-    echo.
-    echo Read-Host 'Presiona Enter para continuar'
 ) > "%ps_script%"
 
 powershell -NoProfile -ExecutionPolicy Bypass -File "%ps_script%"
 set "result=%errorlevel%"
-
 del "%ps_script%"
-
-if %result% equ 0 (
+if "%result%"=="0" (
     endlocal
     exit /b 0
 ) else (
