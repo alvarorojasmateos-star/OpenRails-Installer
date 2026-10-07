@@ -1,2 +1,3 @@
 # OpenRails-Installer
-Script .bat para instalar Open Rails con menú interactivo
+.bat codigo abierto 
+Es divertido, aparte para personas que no saben instalarse open rails le sirve de gran ayuda
